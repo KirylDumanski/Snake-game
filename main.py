@@ -61,3 +61,42 @@ class Game:
         pygame.display.flip()
         self.clock.tick(self.fps)
 
+    def show_score(self, choice=1):
+        score_font = pygame.font.SysFont('Arial', 24)
+        # TODO: change upper line when download necessary font: score.font = pygame.font.Font('/where/font.ttf', size)
+        score_surface = score_font.render(
+            f'Score: {self.score}',
+            True,
+            self.BLACK
+        )
+        score_rect = score_surface.get_rect()
+
+        if choice == 1:
+            score_rect.midtop = (80, 10)
+        else:
+            score_rect.midtop = (360, 120)
+        self.screen.blit(score_surface, score_rect)
+
+    def game_over(self):
+        """Displays "Game Over, Score" and ends the game"""
+        game_over_font = pygame.font.SysFont('Arial', 72)
+        game_over_surface = game_over_font.render(
+            "Game Over",
+            True,
+            self.RED
+        )
+        game_over_rect = game_over_surface.get_rect()
+        game_over_rect.midtop = (360, 15)
+        self.screen.blit(game_over_surface, game_over_rect)
+        self.show_score(0)
+        pygame.display.flip()
+        pygame.quit()
+
+
+
+
+
+
+game = Game()
+game.init_and_check_errors()
+game.set_surface_and_title()
