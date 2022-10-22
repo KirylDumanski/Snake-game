@@ -3,6 +3,7 @@ import sys
 import time
 
 import pygame
+
 import config
 
 
@@ -57,7 +58,7 @@ class Game:
 
     def show_score(self, choice: int = 1) -> None:
         """Shows the score"""
-        score_font = pygame.font.Font('fonts/Arial.ttf', 24)
+        score_font = pygame.font.SysFont('Arial', 24)
         score_surface = score_font.render(f'Score: {self.score}', True, config.BLACK)
         score_rect = score_surface.get_rect()
 
@@ -69,7 +70,7 @@ class Game:
 
     def game_over(self) -> None:
         """Displays "Game Over, Score" and ends the game"""
-        game_over_font = pygame.font.Font('fonts/Arial.ttf', 80)
+        game_over_font = pygame.font.SysFont('Arial', 80)
         game_over_surface = game_over_font.render("Game Over", True, config.RED, config.BACKGROUND)
         game_over_rect = game_over_surface.get_rect()
         game_over_rect.midtop = (360, 150)
@@ -158,25 +159,27 @@ class Food:
         )
 
 
-game = Game()
-snake = Snake()
-food = Food(game.width, game.height)
+if __name__ == '__main__':
 
-while True:
-    snake.direction_to_change = game.event_tracking(snake.direction_to_change)
+    game = Game()
+    snake = Snake()
+    food = Food(game.width, game.height)
 
-    snake.check_change_direction()
-    snake.change_head_position()
+    while True:
+        snake.direction_to_change = game.event_tracking(snake.direction_to_change)
 
-    game.score, food.food_position = snake.snake_body_mechanics(
-        game.score, food.food_position, game.width, game.height)
+        snake.check_change_direction()
+        snake.change_head_position()
 
-    snake.draw_snake(game.playing_surface, config.BACKGROUND)
+        game.score, food.food_position = snake.snake_body_mechanics(
+            game.score, food.food_position, game.width, game.height)
 
-    food.draw_food(game.playing_surface)
+        snake.draw_snake(game.playing_surface, config.BACKGROUND)
 
-    snake.collision_check(
-        game.game_over, game.width, game.height)
+        food.draw_food(game.playing_surface)
 
-    game.show_score()
-    game.refresh_screen()
+        snake.collision_check(
+            game.game_over, game.width, game.height)
+
+        game.show_score()
+        game.refresh_screen()
